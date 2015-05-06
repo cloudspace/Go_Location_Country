@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"os/exec"
 	"strconv"
 
 	_ "github.com/lib/pq"
@@ -30,6 +31,9 @@ func main() {
 	if err != nil {
 		fmt.Println(getJSONError(err))
 	}
+
+	cmd := exec.Command("service postgresql start", "")
+	cmd.Start()
 
 	connectionURI := "host=127.0.0.1 port=5432 user=docker password=docker dbname=geolocation"
 	query := fmt.Sprintf("SELECT name FROM ne_110m_admin_0_countries WHERE ST_Contains(geom, ST_GeometryFromText('POINT(%f %f)', 4326))", lng, lat)
