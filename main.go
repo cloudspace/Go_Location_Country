@@ -24,16 +24,23 @@ func main() {
 
 	if err != nil {
 		fmt.Println(getJSONError(err))
+		return
 	}
 
 	lng, err := strconv.ParseFloat(strLng, 64)
 
 	if err != nil {
 		fmt.Println(getJSONError(err))
+		return
 	}
 
 	cmd := exec.Command("service postgresql start", "")
-	cmd.Run()
+	err = cmd.Run()
+
+	if err != nil {
+		fmt.Println(getJSONError(err))
+		return
+	}
 
 	connectionURI := "host=127.0.0.1 port=5432 user=docker password=docker dbname=geolocation"
 	query := fmt.Sprintf("SELECT name FROM ne_110m_admin_0_countries WHERE ST_Contains(geom, ST_GeometryFromText('POINT(%f %f)', 4326))", lng, lat)
@@ -41,12 +48,14 @@ func main() {
 	db, err := sql.Open("postgres", connectionURI)
 	if err != nil {
 		fmt.Println(getJSONError(err))
+		return
 	}
 	defer db.Close()
 
 	result, err := getJSONResultOfQuery(query, db)
 	if err != nil {
 		fmt.Println(getJSONError(err))
+		return
 	}
 	fmt.Println(result)
 }
