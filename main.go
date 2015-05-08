@@ -33,7 +33,7 @@ func main() {
 	}
 
 	cmd := exec.Command("service postgresql start", "")
-	cmd.Start()
+	cmd.Run()
 
 	connectionURI := "host=127.0.0.1 port=5432 user=docker password=docker dbname=geolocation"
 	query := fmt.Sprintf("SELECT name FROM ne_110m_admin_0_countries WHERE ST_Contains(geom, ST_GeometryFromText('POINT(%f %f)', 4326))", lng, lat)
