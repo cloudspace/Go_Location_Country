@@ -34,7 +34,7 @@ func main() {
 		return
 	}
 
-	cmd := exec.Command("service postgresql start", "")
+	cmd := exec.Command("sh", "-c", "service postgresql start")
 	err = cmd.Run()
 
 	if err != nil {
