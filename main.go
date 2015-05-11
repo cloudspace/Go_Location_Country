@@ -95,10 +95,10 @@ func getJSONResultOfQuery(sqlString string, db *sql.DB) (string, error) {
 	}
 	result := make(map[string]interface{}, 0)
 	if len(tableData) == 0 {
-		result["result"] = "No Countries Found."
+		result["country"] = "No Countries Found."
 		result["error"] = ""
 	} else {
-		result["result"] = tableData[0]["name"]
+		result["country"] = tableData[0]["name"]
 		result["error"] = ""
 	}
 	return asJSON(result), nil
@@ -126,5 +126,5 @@ func getJSONError(myError error) string {
 
 func errorStringAsJSON(errorString string) string {
 
-	return "{\"result\": \"\"\n\"error\": \"" + errorString + "\"}"
+	return "{\"country\": \"\"\n\"error\": \"" + errorString + "\"}"
 }
