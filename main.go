@@ -95,7 +95,7 @@ func getJSONResultOfQuery(sqlString string, db *sql.DB) (string, error) {
 	}
 	result := make(map[string]interface{}, 0)
 	if len(tableData) == 0 {
-		result["country"] = "No Countries Found."
+		result["country"] = ""
 		result["error"] = ""
 	} else {
 		result["country"] = tableData[0]["name"]
